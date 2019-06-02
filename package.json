@@ -1,6 +1,7 @@
 {
 	"name": "zeit-addon-counter",
 	"dependencies": {
-		"@zeit/integration-utils": "latest"
+		"@zeit/integration-utils": "latest",
+		"digest-fetch": "^0.1.5"
 	}
 }
