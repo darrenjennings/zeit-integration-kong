@@ -1,10 +1,9 @@
 import KongClient from '../../lib/kong-client';
 
-console.log("setupView")
 export default async function setupView (viewData) {
   const { payload, metadata, zeitClient } = viewData;
   const { kongAdminApiUrl, apiKey } = payload.clientState; // From form submition
-    const rateLimitURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
+  const rateLimitURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
 
   let error = null;
   let second = null;
@@ -15,28 +14,12 @@ export default async function setupView (viewData) {
   if (payload.action === 'rateLimit') {
     if (!second && !minute && !hour && !day) {
       error = 'At least one limit must exist. Please enter a value for Second, Minute, Hour, or Day.';
-    } else {
-    //   console.log(kongAdminApiUrl)
-    //   const kongClient = new KongClient({ url: kongAdminApiUrl, apiKey });
-    //   viewData.kongClient = kongClient;
-    //   const authChecked = await kongClient.fetchAndThrow('', {});
-    //   if (authChecked) { // If the API key and URL are good, go to the next view
-    //     console.log(authChecked)
-    //     metadata.connectionInfo = { kongAdminApiUrl, apiKey };
-    //     await zeitClient.setMetadata(metadata);
-    //     return `
-    //     <UL>
-    //       ${Object.keys(authChecked.plugins.available_on_server).map(plugin => `<LI>${plugin}</LI>`)}
-    //     </UL>
-    //     `
-    //     // return deploymentsView(viewData)
-    //   }
-
-      error = 'Please enter all the required fields';
     }
-  }
 
-  return `
+    error = 'Please enter all the required fields';
+
+
+    return `
         <Box>
             <Fieldset>
                 <FsContent>
@@ -69,8 +52,9 @@ export default async function setupView (viewData) {
                     <Input name="day" value="${day || ''}"/>
                 </FsContent>
             </Fieldset>
-            ${error ? `<Box color="red" marginBottom="20px">${error}</Box>`: '' }        
+            ${error ? `<Box color="red" marginBottom="20px">${error}</Box>` : ''}        
             <Button action="rateLimit">Setup</Button>
 		</Box>
     `
+  }
 }
