@@ -1,18 +1,6 @@
 import KongClient from '../lib/kong-client';
-import deploymentsView from './deployments';
 
 console.log("dashboardView")
-
-// console.log(kongAdminApiUrl)
-// const kongClient = new KongClient({ url: kongAdminApiUrl, apiKey });
-// viewData.kongClient = kongClient;
-// const authChecked = await kongClient.fetchAndThrow('', {});
-// if (authChecked) { // If the API key and URL are good, go to the next view
-// console.log(authChecked)
-// metadata.connectionInfo = { kongAdminApiUrl, apiKey };
-// await zeitClient.setMetadata(metadata);
-
-
 
 export default async function dashboardView (viewData) {
   const { payload, metadata, zeitClient } = viewData;
@@ -36,7 +24,6 @@ export default async function dashboardView (viewData) {
           ${Object.keys(authChecked.plugins.available_on_server).map(plugin => `<LI>${plugin}</LI>`)}
         </UL>
         `
-        // return deploymentsView(viewData)
       }
 
       error = 'Either "Kong URL" or "Kong API Key" is incorrect.';

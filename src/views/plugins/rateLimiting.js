@@ -1,7 +1,8 @@
 import KongClient from '../../lib/kong-client';
 import pluginView from '../plugin';
 
-export default async function rateLimiting (viewData) {
+console.log("rateLimiting")
+export default async function rateLimiting(viewData) {
   const { payload, metadata, zeitClient } = viewData;
   const { kongAdminApiUrl, apiKey } = payload.clientState; // From form submition
   const docsURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
@@ -18,9 +19,7 @@ export default async function rateLimiting (viewData) {
     } else {
       return pluginView(viewData)
     }
-
-    error = 'Please enter all the required fields';
-
+  }
 
     return `
         <Box>
@@ -56,8 +55,7 @@ export default async function rateLimiting (viewData) {
                 </FsContent>
             </Fieldset>
             ${error ? `<Box color="red" marginBottom="20px">${error}</Box>` : ''}
-            <Button action="pluginConfigured">Setup</Button>
+            <Button action="pluginConfigured">Setup Rate Limiting</Button>
 		</Box>
     `
-  }
 }
