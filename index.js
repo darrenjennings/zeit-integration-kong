@@ -1,8 +1,9 @@
 import { withUiHook } from '@zeit/integration-utils';
 
 import setupView from './src/views/setup';
-import servicesView from './src/views/services';
-// import deploymentsView from './src/views/deployments';
+import deploymentsView from './src/views/deployments';
+import servicesView from './src/views/services.js';
+import rateLimiting from './src/views/plugins/rateLimiting';
 
 
 // import newClusterView from './views/new-cluster';
@@ -17,10 +18,27 @@ async function getContent(options) {
     const metadata = await zeitClient.getMetadata();
     const viewData = { metadata, zeitClient, payload };
 
+    console.log("payload.action", payload.action)
     // First time setup
-    if (!metadata.connectionInfo) {
+    if (!metadata.connectionInfo || payload.action === "view") {
         return setupView(viewData);
+        // return deploymentsView(viewData);
     }
+    //     return deploymentsView(viewData)
+    // }
+    if (payload.action === 'setup') {
+        return deploymentsView(viewData)
+    }
+
+    if (payload.action.split('-')[0] === 'choose') {
+        return servicesView(viewData)
+    }
+
+    if (payload.action === 'rateLimiting') {
+        return rateLimiting(viewData)
+    }
+
+    console.log("metadata", metadata)
 
     // if (action === 'new-cluster') {
     //     return newClusterView(viewData);
