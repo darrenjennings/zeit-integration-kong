@@ -8,7 +8,7 @@ import basicAuth from './src/views/plugins/basicAuth';
 
 import dashboardView from './src/views/dashboard';
 // import newClusterView from './views/new-cluster';
-// import KongClient from '..kong-client.js';
+import KongClient from '..kong-client.js';
 
 async function getContent (options) {
     const { payload, zeitClient } = options;
@@ -19,12 +19,15 @@ async function getContent (options) {
     console.log(payload.action, 'split: ', payload.action.split('-')[0])
     console.log("metadata", metadata)
 
-    // First time setup
-    if (!metadata.connectionInfo || payload.action === "view") {
+  // First time setup
+  if (!metadata.connectionInfo) {
     return setupView(viewData);
-    }
-
-    if (payload.action === 'setup') {
+  }
+  
+  const client = new KongClient(metadata.connectionInfo);
+  viewData.client = client
+  
+  if (payload.action === 'setup' || payload.action === "view") {
     return projectsView(viewData)
     }
 

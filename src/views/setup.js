@@ -1,7 +1,6 @@
 import KongClient from '../lib/kong-client';
 import projectsView from './projects';
 
-
 export default async function setupView (viewData) {
   const { payload, zeitClient } = viewData;
   const { kongAdminApiUrl, apiKey } = payload.clientState;
@@ -11,16 +10,13 @@ export default async function setupView (viewData) {
     if (!kongAdminApiUrl || !apiKey) {
       error = 'Both "Kong Admin URL" and "Kong API Key" are required.';
     } else {
-      const kongClient = new KongClient({ url: kongAdminApiUrl, apiKey });
+      const connectionInfo = { url: kongAdminApiUrl, apiKey }
+      const kongClient = new KongClient(connectionInfo);
+      
       viewData.kongClient = kongClient;
       const authChecked = await kongClient.authCheck();
       if (authChecked) {
-        zeitClient.setMetadata({
-          connectionInfo: {
-            kongAdminApiUrl, 
-            apiKey
-          }
-        })
+        zeitClient.setMetadata({ connectionInfo })
         return projectsView(viewData)
       }
 

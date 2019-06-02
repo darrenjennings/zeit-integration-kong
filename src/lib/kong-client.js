@@ -13,6 +13,10 @@ export default class KongClient {
       'apikey': this.options.apiKey,
       'Content-Type': 'application/json'
     }
+    
+    if (options.data) {
+      options.body = JSON.stringify(options.data)
+    }
 
     return this.client.fetch(apiUrl, options);
   }
@@ -30,6 +34,20 @@ export default class KongClient {
     const response = await res.json();
 
     return response;
+  }
+  
+  async fetchEntity (entityName, method, postData = {}) {
+    const requestOptions = {
+      method: method
+    }
+    
+    if (method === 'POST' && postData){
+      requestOptions.data = postData
+    }
+    
+    this.fetch(`/${entityName}`, requestOptions)
+    .then(res => res.json())
+    .then(json => console.log(json))
   }
 
   async authCheck () {
