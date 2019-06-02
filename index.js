@@ -9,9 +9,9 @@ import pluginView from './src/views/plugin'
 import rateLimiting from './src/views/plugins/rateLimiting';
 import basicAuth from './src/views/plugins/basicAuth';
 
+import dashboardView from './src/views/dashboard';
 // import newClusterView from './views/new-cluster';
 // import KongClient from '..kong-client.js';
-// import dashboardView from './views/dashboard';
 
 async function getContent(options) {
     console.log("getContent")
@@ -50,6 +50,11 @@ async function getContent(options) {
     // Choose to configure the Basic Authentication Plugin.
     if (payload.action === 'basicAuth') {
         return basicAuth(viewData)
+    }
+
+    // Done configuring plugins. Go to the dashboard
+    if (payload.action === 'done') {
+        return dashboardView(viewData)
     }
 
     console.log("metadata", metadata)
