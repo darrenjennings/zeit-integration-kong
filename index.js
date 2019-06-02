@@ -1,7 +1,7 @@
 import { withUiHook } from '@zeit/integration-utils';
 
 import setupView from './src/views/setup';
-// import servicesView from './src/views/services';
+import servicesView from './src/views/services';
 // import deploymentsView from './src/views/deployments';
 
 
@@ -12,16 +12,15 @@ import setupView from './src/views/setup';
 async function getContent(options) {
     console.log("getContent")
     const { payload, zeitClient } = options;
-    // const { action } = payload;
+    const { action } = payload;
     
     const metadata = await zeitClient.getMetadata();
     const viewData = { metadata, zeitClient, payload };
-    
-    // return "Hello World!"
+
     // First time setup
-    // if (!metadata.connectionInfo) {
+    if (!metadata.connectionInfo) {
         return setupView(viewData);
-    // }
+    }
 
     // if (action === 'new-cluster') {
     //     return newClusterView(viewData);

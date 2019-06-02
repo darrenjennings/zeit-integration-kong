@@ -40,18 +40,16 @@ export default async function setupView (viewData) {
                 <FsContent>
                     <FsTitle>Your Kong URL</FsTitle>
                     <FsSubtitle>This is the url of your Kong admin server.</FsSubtitle>
-                    <Input name="kongAdminApiUrl" value="${kongAdminApiUrl || ''}"/>
+                    <Input width='500px' name="kongAdminApiUrl" value="${kongAdminApiUrl || ''}"/>
                 </FsContent>
             </Fieldset>
             <Fieldset>
                 <FsContent>
                     <FsTitle>Your Kong API Key</FsTitle>
-                    <Input name="apiKey" value="${apiKey || ''}"/>
+                    <Input width='500px' name="apiKey" value="${apiKey || ''}"/>
                 </FsContent>
             </Fieldset>
-            ${error ? `<Box color="red" marginBottom="20px">${error}</Box>`
-      : ''
-    }        
+            ${error ? `<Box color="red" marginBottom="20px">${error}</Box>`: '' }        
             <Button action="setup">Setup</Button>
 		</Box>
     `
