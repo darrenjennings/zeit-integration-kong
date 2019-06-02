@@ -1,5 +1,5 @@
 // import setupView from './setup';
-import rateLimiting from './plugins/rateLimiting';
+import pluginView from './plugin';
 
 console.log("servicesView")
 
@@ -13,13 +13,13 @@ export default async function servicesView(viewData) {
     // const linkArray = payload.action.split('-')
     let error = null;
     if (!serviceUrl) {
-        error = 'Please enter service URL';
+        error = 'Please enter a service URL';
       } else {
-        if (payload.action === 'service') {
-            console.log("You chose service")
+        if (payload.action === 'serviceUrl') {
+            console.log("You chose serviceUrl")
             
 
-            return rateLimiting(viewData)
+            return pluginView(viewData)
         }
       }
     return `
@@ -27,16 +27,18 @@ export default async function servicesView(viewData) {
                 <Fieldset>
                     <FsContent>
                         <H1>Service URL</H1>
-                        <P>Please enter your service URL</P>
+                        <P>Before you can start making requests against the the Kong plugin, 
+                        you will need to add a Route to it. Routes specify how (and if) 
+                        requests are sent to their Services after they reach Kong. A 
+                        single Service can have many Routes. Please enter your service URL. </P>
                     </FsContent>
                     <FsContent>
                         <FsTitle>Service URL</FsTitle>
-                        <FsSubtitle>This is the url of your Kong admin server.</FsSubtitle>
                         <Input width='500px' name="serviceUrl" value="${serviceUrl || ''}"/>
                     </FsContent>
                 </Fieldset>
                 ${error ? `<Box color="red" marginBottom="20px">${error}</Box>`: '' }        
-                <Button action="service">Setup</Button>
+                <Button action="serviceUrl">Setup</Button>
             </Box>
         `
 }
