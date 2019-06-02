@@ -1,9 +1,10 @@
 import KongClient from '../../lib/kong-client';
+import pluginView from '../plugin';
 
-export default async function setupView (viewData) {
+export default async function rateLimiting (viewData) {
   const { payload, metadata, zeitClient } = viewData;
   const { kongAdminApiUrl, apiKey } = payload.clientState; // From form submition
-  const rateLimitURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
+  const docsURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
 
   let error = null;
   let second = null;
@@ -11,9 +12,11 @@ export default async function setupView (viewData) {
   let hour = null;
   let day = null;
 
-  if (payload.action === 'rateLimit') {
+  if (payload.action === 'pluginConfigured') {
     if (!second && !minute && !hour && !day) {
       error = 'At least one limit must exist. Please enter a value for Second, Minute, Hour, or Day.';
+    } else {
+      return pluginView(viewData)
     }
 
     error = 'Please enter all the required fields';
@@ -24,7 +27,7 @@ export default async function setupView (viewData) {
             <Fieldset>
                 <FsContent>
                     <H1>Rate Limiting</H1>
-                    <FsSubtitle><Link href="${rateLimitURL}" target="_blank">Documentation</Link></FsSubtitle>
+                    <FsSubtitle><Link href="${docsURL}" target="_blank">Kong Documentation</Link></FsSubtitle>
                     <P>Rate limit how many HTTP requests a developer can make in a given period of seconds, 
                         minutes, hours, days, months or years. If the underlying Service/Route (or deprecated API 
                         entity) has no authentication layer, the Client IP address will be used, otherwise the 
@@ -52,8 +55,8 @@ export default async function setupView (viewData) {
                     <Input name="day" value="${day || ''}"/>
                 </FsContent>
             </Fieldset>
-            ${error ? `<Box color="red" marginBottom="20px">${error}</Box>` : ''}        
-            <Button action="rateLimit">Setup</Button>
+            ${error ? `<Box color="red" marginBottom="20px">${error}</Box>` : ''}
+            <Button action="pluginConfigured">Setup</Button>
 		</Box>
     `
   }

@@ -7,7 +7,6 @@ import rateLimiting from './src/views/plugins/rateLimiting';
 
 async function getContent (options) {
   const { payload, zeitClient } = options;
-  const { action } = payload;
 
   const metadata = await zeitClient.getMetadata();
   const viewData = { metadata, zeitClient, payload };
@@ -22,13 +21,24 @@ async function getContent (options) {
   if (payload.action === 'setup') {
     return projectsView(viewData)
   }
-  
+
   if (payload.action.split('-')[0] === 'choose') {
     return servicesView(viewData)
   }
 
+  // Service URL set. Choose Which Plugin to configure
+  if (payload.action === 'serviceUrl' || payload.action === 'pluginConfigured') {
+    return pluginView(viewData)
+  }
+
+  // Choose to configure the Rate Limiting Plugin.
   if (payload.action === 'rateLimiting') {
     return rateLimiting(viewData)
+  }
+
+  // Choose to configure the Basic Authentication Plugin.
+  if (payload.action === 'basicAuth') {
+    return basicAuth(viewData)
   }
 }
 
