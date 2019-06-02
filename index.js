@@ -4,6 +4,7 @@ import setupView from './src/views/setup';
 import projectsView from './src/views/projects';
 import servicesView from './src/views/services';
 import rateLimiting from './src/views/plugins/rateLimiting';
+import KongClient from './src/lib/kong-client';
 
 async function getContent (options) {
   const { payload, zeitClient } = options;
@@ -14,11 +15,14 @@ async function getContent (options) {
   console.log(payload.action, 'split: ', payload.action.split('-')[0])
 
   // First time setup
-  if (!metadata.connectionInfo || payload.action === "view") {
+  if (!metadata.connectionInfo) {
     return setupView(viewData);
   }
-
-  if (payload.action === 'setup') {
+  
+  const client = new KongClient(metadata.connectionInfo);
+  viewData.client = client
+  
+  if (payload.action === 'setup' || payload.action === "view") {
     return projectsView(viewData)
   }
 
