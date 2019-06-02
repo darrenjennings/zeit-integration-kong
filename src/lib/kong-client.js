@@ -6,15 +6,12 @@ export default class KongClient {
     this.client = new DFetch(options.url, options.apiKey);
   }
 
-  fetch (path, options) {
+  fetch (path, options = {}) {
     const apiUrl = `${this.options.url}${path}`;
-    console.log(apiUrl)
-    if (options.data) {
-      options.headers = {
-        ...options.headers,
-        'Content-Type': 'application/json'
-      };
-      options.body = JSON.stringify(options.data);
+    options.headers = {
+      ...options.headers,
+      'apikey': this.options.apiKey,
+      'Content-Type': 'application/json'
     }
 
     return this.client.fetch(apiUrl, options);
@@ -36,13 +33,11 @@ export default class KongClient {
   }
 
   async authCheck () {
-    let res 
-    try{
-      res = await this.fetch('/', { method: 'GET' });
+    try {
+      const res = await this.fetchAndThrow('');
+      return res.hasOwnProperty('plugins')
     } catch (e) {
-      console.log(e)
+      return false
     }
-    
-    return res.status === 200;
   }
 }

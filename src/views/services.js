@@ -1,27 +1,20 @@
 // import setupView from './setup';
 import pluginView from './plugin';
 
-console.log("servicesView")
+export default async function servicesView (viewData) {
+  const { payload } = viewData;
+  const { serviceUrl } = payload.clientState
+  
+  let error = null;
+  
+  if (!serviceUrl) {
+    error = 'Please enter service URL';
+  } else {
+    if (payload.action === 'serviceUrl') {
+      return pluginView(viewData)
+    }
+  }
 
-export default async function servicesView(viewData) {
-    const { payload, metadata, zeitClient } = viewData;
-    // const { kongAdminApiUrl, apiKey } = payload.clientState; // From form submition
-    const {projectId} = payload;
-    const serviceUrl = '';
-    console.log("servicesView payload.action", payload.action)
-
-    // const linkArray = payload.action.split('-')
-    let error = null;
-    if (!serviceUrl) {
-        error = 'Please enter a service URL';
-      } else {
-        if (payload.action === 'serviceUrl') {
-            console.log("You chose serviceUrl")
-            
-
-            return pluginView(viewData)
-        }
-      }
     return `
             <Box>
                 <Fieldset>
