@@ -23,6 +23,7 @@ export default async function projectsView (viewData) {
         projects[i].kong.service = service
       }
     } catch (e) {
+      console.log(e)
       error += "Could not connect to Kong. Please check Kong instance and maybe try resetting your Kong Connection info."
       break;
     }
@@ -55,7 +56,7 @@ export default async function projectsView (viewData) {
   return html`
   <Page>
     ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : top}
-    <Box display=${metadata.connectionInfo ? 'flex' : 'none'} marginTop="1rem">
+    <Box display=${metadata.connectionInfo || error ? 'flex' : 'none'} marginTop="1rem">
       <Link action="reset">Reset Kong Connection</Button>
     </Box>
   </Page>`

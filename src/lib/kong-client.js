@@ -47,16 +47,22 @@ export default class KongClient {
 
     const res = await this.fetch(`/${entityName}`, requestOptions)
 
-    if (res.status >= 200 && res.status <= 400) {
-      return {
-        status: res.status,
-        data: res.json()
+    if (res.status !== 400 && res.status !== 500) {
+      try {
+        const json = res.json()
+        return {
+          status: res.status,
+          data: json
+        }
+      } catch (e) {
+        return {
+          status: res.status,
+          data: null
+        }
       }
     } else {
       throw new Error(
-        `Failed Kong API call. path: ${path} status: ${
-        res.status
-        } error: ${await res.text()}`
+        `Failed Kong API call. path: ${entityName} status: ${res.status} error: ${await res.text()}`
       );
     }
 
