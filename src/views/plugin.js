@@ -4,8 +4,10 @@ import basicAuth from './plugins/basicAuth';
 import dashboardView from './dashboard'
 
 export default async function pluginView (viewData) {
-  const { payload, metadata, zeitClient } = viewData;
-  const { projectId } = payload;
+  const { payload, routeId: _routeId  } = viewData;
+  const routeId = _routeId || payload.clientState.routeId
+  
+  console.log(routeId, _routeId)
   console.log("pluginView payload.action", payload.action)
 
   if (payload.action === 'rateLimiting') {
@@ -18,7 +20,7 @@ export default async function pluginView (viewData) {
   } else if (payload.action === 'basicAuth') {
     console.log("You chose basicAuth")
     return basicAuth(viewData)
-  } else if (payload.action === 'done') { //Done configuring plugins
+  } else if (payload.action === 'done') {
     console.log("You chose done")
     return dashboardView(viewData)
   }
@@ -32,10 +34,13 @@ export default async function pluginView (viewData) {
                       
                   </FsContent>
                   <FsContent>
-                      <Button action="rateLimiting">Rate Limiting</Button>
+                    <Box display="none">
+                      <Input hidden width='500px' name="routeId" value=${routeId || ''}/>
+                    </Box>
+                    <Button action="rateLimiting">Rate Limiting</Button>
                   </FsContent>
                   <FsContent>
-                      <Button action="basicAuth">Basic Authentication</Button>
+                    <Notice type="message">More plugins coming soon...</Notice>
                   </FsContent>
               </Fieldset>
               ${payload.action === 'pluginConfigured' ? 

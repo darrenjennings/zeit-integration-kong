@@ -30,10 +30,12 @@ export default async function servicesView (viewData) {
       })
 
       if (routeResp.status == 201) {
-        viewData.routeId = routeResp.data.id
+        console.log(routeResp.data)
+        const route = await routeResp.data
+        viewData.routeId = route.id
         return pluginView(viewData)
       }
-      
+
       error += '<BR/>Error creating route ' + routeResp.status;
     }
   }
@@ -78,7 +80,7 @@ export default async function servicesView (viewData) {
                   </FsContent>
                 </Fieldset>
                 ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : ''}
-                <Button action="services">Setup</Button>
+                <Button action="services">Submit</Button>
             </Box>
         `
 }
