@@ -39,7 +39,7 @@ export default async function pluginView (viewData) {
                   </FsContent>
               </Fieldset>
               ${payload.action === 'pluginConfigured' ? 
-              `<Button action="done">Done Configuring Plugins</Button>`
+              html`<Button action="done">Done Configuring Plugins</Button>`
               : '' } 
           </Box>
       `
