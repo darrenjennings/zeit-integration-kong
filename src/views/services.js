@@ -56,8 +56,7 @@ export default async function servicesView (viewData) {
                     <FsTitle>URL</FsTitle>
                     <FsSubtitle>The URL of your ZEIT Now API (e.g. https://my-express-project-dcimj3h6p.now.sh/)</FsSubtitle>
                     <Input width='500px' name="serviceUrl" value=${serviceUrl || ''}/>
-                  </FsContent>
-                  <FsContent>
+                    <BR /><BR />
                     <FsTitle>Path</FsTitle>
                     <FsSubtitle>The path Kong will use in requests to the upstream ZEIT Now server.</FsSubtitle>
                     <Input width='500px' name="servicePath" value=${servicePath || ''}/>
@@ -77,8 +76,8 @@ export default async function servicesView (viewData) {
                     </Box>
                   </FsContent>
                 </Fieldset>
-                ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : ''}
                 <Button action="services">Setup</Button>
+                ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : ''}
             </Box>
         `
 }

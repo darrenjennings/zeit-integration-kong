@@ -42,9 +42,11 @@ export default async function basicAuth(viewData) {
                     <FsSubtitle>The password for the consumer / credential.</FsSubtitle>
                     <Input name="password" value="${password || ''}"/>
                 </FsContent>
+                <FsFooter>
+                  <Button action="pluginConfigured">Setup Basic Authentication</Button>
+                </FsFooter>
             </Fieldset>
             ${error ? `<Box color="red" marginBottom="20px">${error}</Box>`: '' }        
-            <Button action="pluginConfigured">Setup Basic Authentication</Button>
 		</Box>
     `
 }

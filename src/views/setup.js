@@ -40,18 +40,15 @@ export default async function setupView (viewData) {
                     <FsTitle>Your Kong URL</FsTitle>
                     <FsSubtitle>This is the url of your Kong Admin API (e.g. https://djkong-zeit.herokuapp.com/kong-admin)</FsSubtitle>
                     <Input width='500px' name="kongAdminApiUrl" value=${kongAdminApiUrl || ''}/>
-                </FsContent>
-                <FsContent>
+                    <BR />
                     <FsTitle>Your Kong API Key</FsTitle>
                     <Input width='500px' name="apiKey" value=${apiKey || ''} />
                 </FsContent>
-                <FsContent>
+                <FsFooter>
                   <Button action="setup">Next</Button>
-                </FsContent>
-                <FsContent>
-                  ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : ''}
-                </FsContent>
+                </FsFooter>
             </Fieldset>
+                  ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : ''}
 		</Box>
     `
 }
