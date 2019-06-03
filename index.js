@@ -20,35 +20,35 @@ async function getContent (options) {
   const metadata = await zeitClient.getMetadata();
   const viewData = { metadata, zeitClient, payload };
 
-//   // First time setup
-//   if (!metadata.connectionInfo) {
-//     return setupView(viewData);
-//   }
+  // First time setup
+  if (!metadata.connectionInfo) {
+    return setupView(viewData);
+  }
   
-//   if (payload.action === 'reset') {
-//     await zeitClient.setMetadata({});
-//     return setupView(viewData);
-//   }
+  if (payload.action === 'reset') {
+    await zeitClient.setMetadata({});
+    return setupView(viewData);
+  }
 
-//   const kongClient = new KongClient(metadata.connectionInfo);
-//   viewData.kongClient = kongClient
+  const kongClient = new KongClient(metadata.connectionInfo);
+  viewData.kongClient = kongClient
 
-//   if (payload.action === 'setup' || payload.action === "view") {
-//     return projectsView(viewData)
-//   }
+  if (payload.action === 'setup' || payload.action === "view") {
+    return projectsView(viewData)
+  }
 
-//   if (payload.action.split('-')[0] === 'choose') {
-//     return servicesView(viewData)
-//   }
+  if (payload.action.split('-')[0] === 'choose') {
+    return servicesView(viewData)
+  }
 
-//   // Service URL set. Choose Which Plugin to configure
-//   if (payload.action === 'services') {
-//     return servicesView(viewData)
-//   }
+  // Service URL set. Choose Which Plugin to configure
+  if (payload.action === 'services') {
+    return servicesView(viewData)
+  }
 
-//   if (payload.action === 'pluginConfigured') {
+  if (payload.action === 'pluginConfigured') {
     return pluginView(viewData)
-//   }
+  }
 
   // Done configuring plugins. Go to the dashboard
   if (payload.action === 'done') {
