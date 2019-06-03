@@ -40,8 +40,12 @@ async function getContent (options) {
     }
 
     // Service URL set. Choose Which Plugin to configure
-    if (payload.action === 'serviceUrl' || payload.action === 'pluginConfigured') {
-    return pluginView(viewData)
+    if (payload.action === 'services' ) {
+    return servicesView(viewData)
+    }
+
+    if (payload.action === 'pluginConfigured') {
+        return pluginView(viewData)
     }
 
     // Done configuring plugins. Go to the dashboard

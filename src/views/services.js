@@ -4,15 +4,17 @@ import pluginView from './plugin';
 export default async function servicesView (viewData) {
   const { payload } = viewData;
   const { serviceUrl } = payload.clientState
+  console.log("serviceUrl", serviceUrl)
   
   let error = null;
   
-  if (!serviceUrl) {
-    error = 'Please enter service URL';
-  } else {
-    if (payload.action === 'serviceUrl') {
+  if (payload.action === 'services') {
+    if (!serviceUrl || serviceUrl === 'undefined' || serviceUrl === '') {
+      error = 'Please enter service URL';
+    } else {
       return pluginView(viewData)
     }
+    error = 'Please enter service URL';
   }
 
     return `
@@ -31,7 +33,7 @@ export default async function servicesView (viewData) {
                     </FsContent>
                 </Fieldset>
                 ${error ? `<Box color="red" marginBottom="20px">${error}</Box>`: '' }        
-                <Button action="serviceUrl">Setup</Button>
+                <Button action="services">Setup</Button>
             </Box>
         `
 }
