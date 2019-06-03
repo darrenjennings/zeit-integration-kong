@@ -30,10 +30,12 @@ export default async function servicesView (viewData) {
       })
 
       if (routeResp.status == 201) {
-        viewData.routeId = routeResp.data.id
+        console.log(routeResp.data)
+        const route = await routeResp.data
+        viewData.routeId = route.id
         return pluginView(viewData)
       }
-      
+
       error += '<BR/>Error creating route ' + routeResp.status;
     }
   }

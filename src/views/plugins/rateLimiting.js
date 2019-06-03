@@ -2,31 +2,32 @@ import { htm as html } from '@zeit/integration-utils'
 import KongClient from '../../lib/kong-client';
 import pluginView from '../plugin';
 
-export default async function rateLimiting(viewData) {
+export default async function rateLimiting (viewData) {
   const { payload, kongClient } = viewData;
   const { routeId, second, minute, hour, day } = payload.clientState; // From form submition
   const docsURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
 
   let error = '';
 
-  if (payload.action === 'pluginConfigured') {
+  if (payload.action === 'rateLimiting') {
     if (!second && !minute && !hour && !day) {
       error = 'At least one limit must exist. Please enter a value for Second, Minute, Hour, or Day.';
     } else {
       const resp = await kongClient.fetchEntity(`routes/${routeId}/plugins`, 'POST', {
         name: 'rate-limiting',
-        config: { second, minute, hour, day }
+        config: {
+          second: parseInt(second),
+          minute: parseInt(minute),
+          hour: parseInt(hour),
+          day: parseInt(day)
+        }
       })
-      
-      if (resp) {
-        
-      }
-      
+
       return pluginView(viewData)
     }
   }
 
-    return html`
+  return html`
         <Box>
             <Fieldset>
                 <FsContent>
@@ -36,35 +37,31 @@ export default async function rateLimiting(viewData) {
                       Rate limit how many HTTP requests a developer can make in a given
                       period of seconds, minutes, hours, days, months or years.
                     </FsSubtitle>
-                </FsContent>
-                <FsContent>
+                  <BR />
                     <FsTitle>Seconds</FsTitle>
                     <FsSubtitle>The amount of HTTP requests the developer can make per second.</FsSubtitle>
-                    <Input name="second" value="${second}"/>
-                </FsContent>
-                    <FsContent>
+                    <Input type="number" name="second" value="${second || ''}"/>
+                  <BR /><BR />
                     <FsTitle>Minutes</FsTitle>
                     <FsSubtitle>The amount of HTTP requests the developer can make per minute.</FsSubtitle>
-                    <Input name="minute" value="${minute}"/>
-                </FsContent>
-                    <FsContent>
+                    <Input type="number" name="minute" value="${minute || ''}"/>
+                  <BR /><BR />
                     <FsTitle>Hours</FsTitle>
                     <FsSubtitle>The amount of HTTP requests the developer can make per hour.</FsSubtitle>
-                    <Input name="hour" value="${hour}"/>
-                </FsContent>
-                <FsContent>
+                    <Input type="number" name="hour" value="${hour || ''}"/>
+                  <BR /><BR />
                     <FsTitle>Days</FsTitle>
                     <FsSubtitle>The amount of HTTP requests the developer can make per day.</FsSubtitle>
-                </FsContent>
-                <FsContent>
-                  <Input name="day" value="${day}"/>
-                  ${error ? `<Box color="red" marginBottom="20px">${error}</Box>` : ''}
-                  <Button action="pluginConfigured">Setup Rate Limiting</Button>
-                </FsContent>
-                <Box display="none">
-                  <Input name="routeId" value="${routeId}"/>
-                </Box>
+                  <Input type="number" name="day" value="${day || ''}"/>
+                  </FsContent>
+                <FsFooter>
+                  <Button action="rateLimiting">Submit</Button>
+                </FsFooter>
             </Fieldset>
+                <Box display="none">
+                  <Input name="routeId" value="${routeId || ''}"/>
+                </Box>
+                  ${error ? html`<Box color="red" marginBottom="20px">${error}</Box>` : ''}
 		</Box>
     `
 }

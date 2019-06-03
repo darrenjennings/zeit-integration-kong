@@ -4,10 +4,12 @@ import basicAuth from './plugins/basicAuth';
 import dashboardView from './dashboard'
 
 export default async function pluginView (viewData) {
-  const { payload, metadata, zeitClient } = viewData;
-  const { projectId } = payload;
+  const { payload, routeId: _routeId  } = viewData;
+  const routeId = _routeId || payload.clientState.routeId
   const rateURL = 'https://docs.konghq.com/hub/kong-inc/rate-limiting/'
   const authURL = 'https://docs.konghq.com/hub/kong-inc/basic-auth/'
+  
+  console.log(routeId, _routeId)
   console.log("pluginView payload.action", payload.action)
 
   if (payload.action === 'rateLimiting') {
@@ -20,7 +22,7 @@ export default async function pluginView (viewData) {
   } else if (payload.action === 'basicAuth') {
     console.log("You chose basicAuth")
     return basicAuth(viewData)
-  } else if (payload.action === 'done') { //Done configuring plugins
+  } else if (payload.action === 'done') {
     console.log("You chose done")
     return dashboardView(viewData)
   }
@@ -34,7 +36,10 @@ export default async function pluginView (viewData) {
                       
                   </FsContent>
                   <FsContent>
-                        <FsTitle>Configure Rate Limiting</FsTitle>
+                    <Box display="none">
+                      <Input hidden width='500px' name="routeId" value=${routeId || ''}/>
+                    </Box>
+                    <FsTitle>Configure Rate Limiting</FsTitle>
                         <FsSubtitle><Link href="${rateURL}" target="_blank">Kong Documentation</Link><BR />
                         Rate limit how many HTTP requests a developer can make in a given
                         period of seconds, minutes, hours, days, months or years.
@@ -42,14 +47,7 @@ export default async function pluginView (viewData) {
                         <Button action="rateLimiting">Rate Limiting</Button>
                   </FsContent>
                   <FsContent>
-                        <FsTitle>Configure Basic Authentication</FsTitle>
-                        <FsSubtitle><Link href="${authURL}" target="_blank">Kong Documentation</Link><BR />
-                        Add Basic Authentication to a Service or a Route with username and password protection. 
-                        The plugin will check for valid credentials in the Proxy-Authorization and Authorization 
-                        header (in this order). We will be creating the consumer and the credential with the same
-                        username and password. 
-                        </FsSubtitle>
-                        <Button action="basicAuth">Basic Authentication</Button>
+                    <Notice type="message">More plugins coming soon...</Notice>
                   </FsContent>
                   <FsFooter>
                     ${payload.action === 'pluginConfigured' ? 
