@@ -33,7 +33,7 @@ export default async function setupView (viewData) {
                     <FsSubtitle>
                       Welcome to the Kong ZEIT Now integration. You will need to have a running instance of <Link href="https://docs.konghq.com/" target="_blank">Kong</Link>
                       publicly available with the Admin API secured via the Key Authentication loopback method. <Link href="https://docs.konghq.com/1.1.x/secure-admin-api/#kong-api-loopback" target="_blank">Read more here</Link><BR/>
-                      <BR/>We recommend trying it out on Heroku if you want to take it for a quick test run: <Link href="https://dashboard.heroku.com/new-app?template=https://github.com/heroku/heroku-kong" target="_blank">Deploy to Heroku</Link>
+                      <BR/>We recommend trying it out on Heroku if you want to take it for a quick test run: <Link href="https://dashboard.heroku.com/new?template=https://github.com/heroku/heroku-kong/tree/kong-1.1.0" target="_blank">Deploy to Heroku</Link>
                     </FsSubtitle>
                 </FsContent>
                 <FsContent>
