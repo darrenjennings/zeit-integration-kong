@@ -1,17 +1,14 @@
+import { htm as html } from '@zeit/integration-utils'
 import KongClient from '../../lib/kong-client';
 import pluginView from '../plugin';
 
-console.log("basicAuth")
 export default async function basicAuth(viewData) {
   const { payload, metadata, zeitClient } = viewData;
-  const { kongAdminApiUrl, apiKey } = payload.clientState; // From form submition
   const docsURL = 'https://docs.konghq.com/hub/kong-inc/basic-auth/'
 
   let error = null;
   let username = null;
   let password = null;
-
-
 
   if (payload.action === 'pluginConfigured') {
     if (!username && !password) {
@@ -23,7 +20,7 @@ export default async function basicAuth(viewData) {
     error = 'Please enter all the required fields';
   }
 
-  return `
+  return html`
         <Box>
             <Fieldset>
                 <FsContent>

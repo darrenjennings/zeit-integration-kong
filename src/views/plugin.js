@@ -1,3 +1,4 @@
+import { htm as html } from '@zeit/integration-utils'
 import rateLimiting from './plugins/rateLimiting';
 import basicAuth from './plugins/basicAuth';
 import dashboardView from './dashboard'
@@ -21,13 +22,13 @@ export default async function pluginView (viewData) {
     console.log("You chose done")
     return dashboardView(viewData)
   }
-  return `
+  return html`
           <Box>
               <Fieldset>
                   <FsContent>
                       ${payload.action === 'pluginConfigured' ? 
-                      `<H1>Would you like to configure another plugin?</H1>`
-                      : `<H1>Please select a plugin that you want to set up.</H1>` } 
+                      html`<H1>Would you like to configure another plugin?</H1>`
+                      : html`<H1>Please select a plugin that you want to set up.</H1>` } 
                       
                   </FsContent>
                   <FsContent>
